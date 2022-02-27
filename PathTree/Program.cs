@@ -11,7 +11,7 @@ namespace PathTree
         static readonly string worker = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
         static readonly string myself = Path.GetFileName(System.Reflection.Assembly.GetExecutingAssembly().Location);
         static readonly string myfile = "kxnrl.path.tree.txt";
-        static readonly string[] exts = new string[] {};
+        static readonly string[] exts = new string[] {}; //".mdl", ".vtx", ".vvd", ".phy", ".vtf", ".vmt"
 
         static void Main()
         {
@@ -27,10 +27,10 @@ namespace PathTree
                     if (fa.HasFlag(FileAttributes.Directory) || f.Contains(myfile) || f.Contains(myself))
                         return;
 
-                    if (Array.IndexOf(exts, Path.GetExtension(f)) >= 0)
-                    {
-                        files.Add(f.Replace(worker, "").TrimStart('\\').Replace('\\', '/'));
-                    }
+                    if (exts.Length > 0 && Array.IndexOf(exts, Path.GetExtension(f)) < 0)
+                        return;
+
+                    files.Add(f.Replace(worker, "").TrimStart('\\').Replace('\\', '/'));
                 });
             Console.WriteLine("Total: {0} files", files.Count);
             Console.WriteLine("Writing...");
